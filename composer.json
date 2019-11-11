@@ -1,0 +1,45 @@
+{
+    "name": "italystrap/view",
+    "description": "View API for loading template parts and views in WordPress",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "overclokk",
+            "email": "info@overclokk.net",
+            "homepage": "https://www.italystrap.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php" : ">=7.1",
+        "italystrap/config": "~1.0"
+    },
+    "require-dev": {
+        "lucatume/wp-browser": "~2.2",
+        "italystrap/debug": "~2.0",
+        "wp-coding-standards/wpcs": "^2.1",
+        "phpcompatibility/php-compatibility": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+        "brain/hierarchy": "^2.4",
+        "symfony/finder": "^4.0"
+    },
+    "autoload": {
+        "files": [
+            "functions/helpers.php"
+        ],
+        "psr-4": {
+            "ItalyStrap\\": "src/"
+        }
+    },
+    "scripts": {
+        "check": [
+            ".\\vendor\\bin\\phpcs -p --standard=PHPCompatibility src",
+            ".\\vendor\\bin\\phpcs -p --standard=WordPress src"
+        ],
+        "test": [
+            "test"
+        ]
+    }
+}
