@@ -5,7 +5,7 @@ namespace ItalyStrap\View;
 
 use Symfony\Component\Finder\Finder;
 
-class SymfonyFinderAdapter extends AbstractViewFinder
+class SymfonyViewFinderAdapter extends AbstractViewFinder
 {
 	/**
 	 * @var ViewFinder

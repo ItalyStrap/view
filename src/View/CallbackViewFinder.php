@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace ItalyStrap\View;
 
-class CallbackFinder extends AbstractViewFinder
+class CallbackViewFinder extends AbstractViewFinder
 {
 	/**
 	 * @var callable

@@ -23,9 +23,9 @@ class FinderTest extends \Codeception\Test\Unit
 
 	private function getSymfonyFinderAdapter() {
 		$symfony = new \Symfony\Component\Finder\Finder();
-		$finderAdapter = new \ItalyStrap\View\SymfonyFinderAdapter( $symfony );
+		$finderAdapter = new \ItalyStrap\View\SymfonyViewFinderAdapter( $symfony );
 		$this->assertInstanceOf( '\ItalyStrap\View\ViewFinderInterface', $finderAdapter );
-		$this->assertInstanceOf( '\ItalyStrap\View\SymfonyFinderAdapter', $finderAdapter );
+		$this->assertInstanceOf( '\ItalyStrap\View\SymfonyViewFinderAdapter', $finderAdapter );
 		return $finderAdapter;
 	}
 
@@ -119,7 +119,7 @@ class FinderTest extends \Codeception\Test\Unit
 	}
 
 	private function getCallbackFinder() {
-		$finder = new \ItalyStrap\View\CallbackFinder( function ( array $files, array $dirs ) {
+		$finder = new \ItalyStrap\View\CallbackViewFinder( function ( array $files, array $dirs ) {
 			// Create some logic to return a full path of a file with your criteria
 
 			/**
@@ -128,7 +128,7 @@ class FinderTest extends \Codeception\Test\Unit
 			return $this->paths[ 'parentPath' ] . '\content-none.php';
 		} );
 		$this->assertInstanceOf( '\ItalyStrap\View\ViewFinderInterface', $finder );
-		$this->assertInstanceOf( '\ItalyStrap\View\CallbackFinder', $finder );
+		$this->assertInstanceOf( '\ItalyStrap\View\CallbackViewFinder', $finder );
 		return $finder;
 	}
 
