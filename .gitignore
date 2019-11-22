@@ -1,9 +1,7 @@
 #Dirs
 /vendor/
-
 /_others/
-
-/Config/
+Config
 
 #Files
 *.local
