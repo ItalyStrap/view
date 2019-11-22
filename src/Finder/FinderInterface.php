@@ -3,11 +3,15 @@ declare(strict_types=1);
 
 namespace ItalyStrap\Finder;
 
+/**
+ * Interface FinderInterface
+ * @package ItalyStrap\Finder
+ */
 interface FinderInterface
 {
 	/**
-	 * @param string|array $dirs Add a directory o an array of directories for searching files
-	 * @return $this
+	 * @param string|array $dirs Add a directory or an array of directories for searching files
+	 * @return $this Return the object instance.
 	 */
 	public function in( $dirs );
 
@@ -46,7 +50,7 @@ interface FinderInterface
 	/**
 	 * @param  string|array $slugs Add a slug or an array of slugs for search files
 	 * @param  string|array $extension Add a file extension or an array of files extension, Default is php
-	 * @return string       Return a full path of the file searched
+	 * @return string|array Return a full path of the file searched
 	 */
 	public function find( $slugs, $extension = 'php' );
 }

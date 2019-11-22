@@ -13,7 +13,7 @@ class SymfonyViewFinderAdapter extends AbstractViewFinder
 	private $finder;
 
 	/**
-	 * SymfonyFinderAdapter constructor.
+	 * SymfonyConfigFinderAdapter constructor.
 	 * @param ViewFinder $finder
 	 */
 	public function __construct( Finder $finder ) {

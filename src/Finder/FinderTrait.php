@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace ItalyStrap\Finder;
 
+/**
+ * Trait FinderTrait
+ * @package ItalyStrap\Finder
+ */
 trait FinderTrait
 {
 	/**
@@ -15,22 +19,23 @@ trait FinderTrait
 	 * 	'file.php',
 	 * ]
 	 *
-	 * @return string Return the first full path to a view found ( full/path/to/a/view.{$extension} )
+	 * @return string|array Return the first full path to a view found ( full/path/to/a/view.{$extension} )
+	 *                      or return an array of files, depend on your implementation.
 	 */
-	abstract protected function filter( array $files ): string ;
+	abstract protected function filter( array $files );
 
 	/**
-	 * @var array
+	 * @var array List of full path directory to search
 	 */
 	protected $dirs = [];
 
 	/**
-	 * @var string
+	 * @var string File extension
 	 */
 	protected $extension = 'php';
 
 	/**
-	 * @var array
+	 * @var array List of files found
 	 */
 	protected $files = [];
 
@@ -50,28 +55,11 @@ trait FinderTrait
 	}
 
 	/**
-	 * Check if the file exists and is readable
-	 *
-	 * @param array $files File(s) to search for, in order.
-	 * @return bool        Return true if a file exists
-	 */
-	protected function has( array $files ): bool {
-
-		$key = $this->generateKey( $files[0] );
-
-		if ( empty( $this->files[ $key ] ) ) {
-			$this->files[ $key ] = $this->filter( $files );
-		}
-
-		return \is_readable( $this->files[ $key ] );
-	}
-
-	/**
 	 * This method generate a unique key for storing a file found in a given directory
 	 * With this generated key you can create new criteria for new directory to search on
 	 *
-	 * @param $fileName
-	 * @return string
+	 * @param string  $fileName The name to prefix keys.
+	 * @return string           Return the key for array
 	 */
 	protected function generateKey( string $fileName ): string {
 		return $fileName . '-' . \md5( \json_encode( $this->dirs ) ) ;

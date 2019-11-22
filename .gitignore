@@ -1,7 +1,11 @@
+#Dirs
 /vendor/
 
 /_others/
 
+/Config/
+
+#Files
 *.local
 codeception.yml
 *.lock

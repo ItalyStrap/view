@@ -11,7 +11,7 @@ class CallbackViewFinder extends AbstractViewFinder
 	private $finder;
 
 	/**
-	 * CallbackFinder constructor.
+	 * CallbackConfigFinder constructor.
 	 * @param callable $callable
 	 */
 	public function __construct( callable $callable ) {

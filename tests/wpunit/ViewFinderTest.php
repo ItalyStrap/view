@@ -1,5 +1,5 @@
 <?php 
-class FinderTest extends \Codeception\Test\Unit
+class ViewFinderTest extends \Codeception\Test\Unit
 {
     /**
      * @var \WpunitTester
