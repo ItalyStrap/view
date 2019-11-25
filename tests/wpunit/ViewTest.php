@@ -1,25 +1,32 @@
 <?php 
-class ViewTest extends \Codeception\Test\Unit
+class ViewTest extends \Codeception\TestCase\WPTestCase
 {
-    /**
-     * @var \WpunitTester
-     */
-    protected $tester;
+	/**
+	 * @var \WpunitTester
+	 */
+	protected $tester;
 
 	private $paths = [];
-    
-    protected function _before()
-    {
+
+	public function setUp(): void
+	{
+		// Before...
+		parent::setUp();
+
 		$this->paths = [
 			'childPath'		=> \codecept_data_dir( 'child' ),
 			'parentPath'	=> \codecept_data_dir( 'parent' ),
 			'pluginPath'	=> \codecept_data_dir( 'plugin' ),
 		];
-    }
+	}
 
-    protected function _after()
-    {
-    }
+	public function tearDown(): void
+	{
+		// Your tear down methods here.
+
+		// Then...
+		parent::tearDown();
+	}
 
 	private function getFinder() {
 		$finder = new \ItalyStrap\View\ViewFinder();
