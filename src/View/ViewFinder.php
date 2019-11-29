@@ -15,9 +15,11 @@ class ViewFinder extends AbstractViewFinder {
 
 		foreach ( $files as $file ) {
 			foreach ( $this->dirs as $dir ) {
-				$dir = \rtrim( $dir, '/'.\DIRECTORY_SEPARATOR );
-				if ( \is_readable( $dir . \DIRECTORY_SEPARATOR . $file ) ) {
-					return $dir . \DIRECTORY_SEPARATOR . $file;
+				$dir = \rtrim( $dir, '/\\' );
+				$temp_file = $dir . \DIRECTORY_SEPARATOR . $file;
+				$temp_file = \str_replace( ['/', '\\'], \DIRECTORY_SEPARATOR, $temp_file );
+				if ( \is_readable( $temp_file ) ) {
+					return $temp_file;
 				}
 			}
 		}
