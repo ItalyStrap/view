@@ -29,16 +29,37 @@ composer require italystrap/view
 
 ```php
 $finder = new \ItalyStrap\View\ViewFinder();
+
 $finder->in( 'full/path/to/the/views/' );
+//or
+$finder->in( ['full/path/to/the/views/','full/path/to/the/views/'] );
+
 
 $view = new \ItalyStrap\View\View( $finder );
 
-$view->render( 'slug', $data );
+$view->render( 'slug', $data ); // Data could be the type of: string|int|array|object
+// Or
+$view->render( ['slug'], $data );
+// Or
+$view->render( ['slug', 'name'], $data );
+// Or
+$view->render( ['slug', 'name', 'subName'], $data );
+```
+
+### For WordPress User
+```php
+\ItalyStrap\View\get_template_part( 'slug', 'name', $data );
+
+// Or
+
+use ItalyStrap\View;
+
+get_template_part( 'slug', 'name', $data );
 ```
 
 ## Advanced Usage
 
-> TODO
+See in [Tests Foldes](tests)
 
 ## Contributing
 
@@ -52,4 +73,5 @@ This code is licensed under the [MIT](LICENSE).
 
 ## Credits
 
-> TODO
+ For the Closure in the View and for some ideas with the Symphony Finder
+ - [Giuseppe Mazzapica](https://github.com/gmazzap)
