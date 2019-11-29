@@ -22,33 +22,16 @@ class GetTemplatePartFunctionTest extends \Codeception\TestCase\WPTestCase
 		parent::tearDown();
 	}
 
-	// Tests
-	public function test_it_works()
-	{
-		$post = static::factory()->post->create_and_get();
-
-		$this->assertInstanceOf(\WP_Post::class, $post);
-	}
-
-    private function controller( $slug, $name = '' ) {
-    	\ob_start();
-    	\get_template_part( $slug, $name );
-    	return \ob_get_clean();
-	}
-
     // tests
     public function testGetTemplatePartFunction()
     {
+		global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
     	$slug = 'index';
 
     	\ob_start();
-		\ItalyStrap\Helpers\get_template_part( $slug );
+		\ItalyStrap\View\get_template_part( $slug, '', $posts );
 		$content = \ob_get_clean();
 
-//		$this->assertEquals( \trim( $this->controller( $slug ) ), \trim( $content ) );
-
-//		codecept_debug( $content );
-//		codecept_debug( $this->controller( $slug ) );
-		codecept_debug( $content );
+		$this->assertIsString( $content );
     }
 }

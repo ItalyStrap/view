@@ -110,5 +110,5 @@ script:
   # - codecept run acceptance
   # - codecept run functional
   # - codecept run integration
-  # - codecept run unit
+#  - codecept run unit
   - codecept run wpunit && codecept run unit
