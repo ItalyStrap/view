@@ -135,6 +135,32 @@ abstract class BaseViewFinderTestUnit extends \Codeception\Test\Unit
 	/**
 	 * @test
 	 */
+	public function itShouldViewFinderSearchInManyDirectories() {
+		$finderAdapter = $this->getInstance();
+
+		/**
+		 * Criteria
+		 * Search in child > parent > plugin path because they are
+		 * in this order in $this->paths field
+		 * File to search content-none.php {['content', 'none']}
+		 * child false
+		 * parent true
+		 * plugin false
+		 */
+		$finderAdapter->in( $this->paths );
+		$realPath = $finderAdapter->find( ['content', 'none'] );
+
+		$realPath = \str_replace('/', '\\', $realPath );
+
+		$this->assertStringNotContainsString( '_data\fixtures\child', $realPath );
+		$this->assertStringContainsString( '_data\fixtures\parent', $realPath );
+		$this->assertStringNotContainsString( '_data\fixtures\plugin', $realPath );
+
+	}
+
+	/**
+	 * @test
+	 */
 	public function itShouldThrownExceptionIfNoFilesAreFound() {
 		$this->expectException( ViewNotFoundException::class );
 		$finder = $this->getInstance();
