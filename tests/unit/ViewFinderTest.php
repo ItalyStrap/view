@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace ItalyStrap\Tests\Unit;
 
 include_once 'BaseViewFinderTestUnit.php';
-class ViewFinderTestUnitTest extends BaseViewFinderTestUnit
+class ViewFinderTest extends BaseViewFinderTestUnit
 {
 
 	protected function setType() {

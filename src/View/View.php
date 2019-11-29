@@ -10,9 +10,8 @@ declare(strict_types=1);
 
 namespace ItalyStrap\View;
 
-use \ItalyStrap\Config\Config_Interface;
-use \ItalyStrap\Config\Config_Factory as Config;
-use ItalyStrap\View\Exceptions\InvalidDataException;
+use \ItalyStrap\Config\ConfigFactory as Config;
+use ItalyStrap\Config\ConfigInterface;
 
 /**
  * Template Class
@@ -32,7 +31,7 @@ class View implements ViewInterface {
 	 * Render a template part into a template
 	 *
 	 * @param  string|array $slugs The slug name for the generic template.
-	 * @param  array|Config_Interface $data
+	 * @param  array|ConfigInterface $data
 	 *
 	 * @return string              Return the file part rendered
 	 * @throws \Exception
@@ -45,7 +44,7 @@ class View implements ViewInterface {
 	 * Print the redered template.
 	 *
 	 * @param $slugs
-	 * @param array|Config_Interface $data
+	 * @param array|ConfigInterface $data
 	 * @throws \Exception
 	 */
 	public function output( $slugs, $data = [] ) {
@@ -55,35 +54,33 @@ class View implements ViewInterface {
 	/**
 	 * Take a template file, bind the data provided and return the string rendered.
 	 *
-	 * @param string $redableFile Full path for this template file.
-	 * @param array|Config_Interface $data
+	 * @param string $readableFile Full path for this template file.
+	 * @param mixed|array|ConfigInterface $data
 	 *
 	 * @return string
 	 * @throws \Exception
 	 */
-	private function renderFile( string $redableFile, $data = [] ) : string {
+	private function renderFile( string $readableFile, $data = [] ) : string {
 
 		$storage = null;
 
-		if ( is_array( $data ) ) {
-			$storage = Config::make( $data );
-		} elseif ( $data instanceof Config_Interface ) {
+		if ( $data instanceof ConfigInterface ) {
 			$storage = $data;
 		} else {
-			throw new InvalidDataException( 'The {$data} must be an array or an instance of \ItalyStrap\Config\Config_Interface', 0 );
+			$storage = Config::make( $data );
 		}
 
 		/**
 		 * Thanks to Giuseppe Mazzapica https://github.com/gmazzap
 		 */
-		$renderer = \Closure::bind( function( $redableFile ) {
+		$renderer = \Closure::bind( function( $readableFile ) {
 			\ob_start();
-			include $redableFile;
+			include $readableFile;
 			return \ob_get_clean();
 		},
 			$storage
 		);
 
-		return $renderer( $redableFile );
+		return $renderer( $readableFile );
 	}
 }

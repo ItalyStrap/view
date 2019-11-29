@@ -6,7 +6,7 @@ namespace ItalyStrap\Tests\Unit;
 use ItalyStrap\View\CallbackViewFinder;
 
 include_once 'BaseViewFinderTestUnit.php';
-class CallbackViewFinderTestUnitTest extends BaseViewFinderTestUnit
+class CallbackViewFinderTest extends BaseViewFinderTestUnit
 {
 
 	protected function setType() {
