@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace ItalyStrap\Tests\Unit;
 
+use ItalyStrap\View\Exceptions\ViewNotFoundException;
+
 abstract class BaseViewFinderTestUnit extends \Codeception\Test\Unit
 {
 	/**
@@ -128,5 +130,15 @@ abstract class BaseViewFinderTestUnit extends \Codeception\Test\Unit
 		$expected = \str_replace( '/', '\\', $this->paths[ 'childPath' ] . '\parts\subparts\index.php'  );
 		$actual = \str_replace( '/', '\\', $full_path_to_file  );
 		$this->assertStringContainsString( $expected, $actual, '' );
+	}
+
+	/**
+	 * @test
+	 */
+	public function itShouldThrownExceptionIfNoFilesAreFound() {
+		$this->expectException( ViewNotFoundException::class );
+		$finder = $this->getInstance();
+		$finder->in( $this->paths );
+		$full_path_to_file = $finder->find( ['no-file'] );
 	}
 }
