@@ -57,7 +57,7 @@ $templates = [
 	'template-parts/content/content.php',
 ];
 
-d( \locate_template( $templates ) );
+//d( \locate_template( $templates ) );
 
 }
 

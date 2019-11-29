@@ -122,7 +122,7 @@ abstract class BaseViewFinderTestUnit extends \Codeception\Test\Unit
 
 		$finder->in( $this->paths );
 
-		$full_path_to_file = $finder->find( ['parts\subparts/index'] );
+		$full_path_to_file = $finder->find( ['parts\subparts/index', 'jhlkjn'] );
 
 		$this->assertFileExists( $full_path_to_file );
 		$this->assertFileIsReadable( $full_path_to_file );

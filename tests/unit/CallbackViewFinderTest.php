@@ -17,9 +17,11 @@ class CallbackViewFinderTest extends BaseViewFinderTestUnit
 		return function (  $files, $dirs  ) {
 			foreach ( $files as $file ) {
 				foreach ( $dirs as $dir ) {
-					$dir = \rtrim( $dir, '/'.\DIRECTORY_SEPARATOR );
-					if ( \is_readable( $dir . \DIRECTORY_SEPARATOR . $file ) ) {
-						return $dir . \DIRECTORY_SEPARATOR . $file;
+					$dir = \rtrim( $dir, '/\\' );
+					$temp_file = $dir . \DIRECTORY_SEPARATOR . $file;
+					$temp_file = \trim( \str_replace('\\', '/', $temp_file ), '/');
+					if ( \is_readable( $temp_file ) ) {
+						return $temp_file;
 					}
 				}
 			}
