@@ -27,7 +27,14 @@ composer require italystrap/view
 
 ## Basic Usage
 
-> TODO
+```php
+$finder = new \ItalyStrap\View\ViewFinder();
+$finder->in( 'full/path/to/the/views/' );
+
+$view = new \ItalyStrap\View\View( $finder );
+
+$view->render( 'slug', $data );
+```
 
 ## Advanced Usage
 

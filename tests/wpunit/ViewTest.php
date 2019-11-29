@@ -14,9 +14,9 @@ class ViewTest extends \Codeception\TestCase\WPTestCase
 		parent::setUp();
 
 		$this->paths = [
-			'childPath'		=> \codecept_data_dir( 'child' ),
-			'parentPath'	=> \codecept_data_dir( 'parent' ),
-			'pluginPath'	=> \codecept_data_dir( 'plugin' ),
+			'childPath'		=> \codecept_data_dir( 'fixtures/child' ),
+			'parentPath'	=> \codecept_data_dir( 'fixtures/parent' ),
+			'pluginPath'	=> \codecept_data_dir( 'fixtures/plugin' ),
 		];
 	}
 

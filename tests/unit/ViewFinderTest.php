@@ -1,28 +1,19 @@
 <?php
 declare(strict_types=1);
 
-class ViewFinderTest extends \Codeception\Test\Unit
+namespace ItalyStrap\Tests\Unit;
+
+include_once 'BaseViewFinderTestUnit.php';
+class ViewFinderTestUnitTest extends BaseViewFinderTestUnit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-    
-    protected function _before()
-    {
-    }
 
-    protected function _after()
-    {
-    }
+	protected function setType() {
+		return \ItalyStrap\View\ViewFinder::class;
+	}
 
-	private function getInstance() {
-		$finder = new \ItalyStrap\View\ViewFinder();
-		$this->assertInstanceOf( ItalyStrap\View\ViewFinderInterface::class, $finder );
-		$this->assertInstanceOf( ItalyStrap\View\AbstractViewFinder::class, $finder );
-		$this->assertInstanceOf( ItalyStrap\View\ViewFinder::class, $finder );
-		return $finder;
-    }
+	protected function setArgs() {
+		return null;
+	}
 
 	/**
 	 * @test
@@ -30,5 +21,6 @@ class ViewFinderTest extends \Codeception\Test\Unit
     public function it_should_be_Instantiable()
     {
 		$finder = $this->getInstance();
+		$this->assertInstanceOf( \ItalyStrap\View\ViewFinder::class, $finder );
     }
 }

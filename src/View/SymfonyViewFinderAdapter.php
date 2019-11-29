@@ -25,6 +25,19 @@ class SymfonyViewFinderAdapter extends AbstractViewFinder
 	 */
 	protected function filter( array $files ): string {
 
+		$this->paths = [];
+
+		$files = \array_map( function ( $file ) {
+			$file = \trim( \str_replace('\\', '/', $file ), '/');
+
+			$split = \explode( '/', $file );
+			$end = \array_pop( $split );
+
+			$this->paths = $split;
+
+			return $end;
+		}, $files );
+
 		/**
 		 * @param ViewFinder $finder
 		 */
@@ -34,6 +47,9 @@ class SymfonyViewFinderAdapter extends AbstractViewFinder
 			->files() // Only files
 			->name( $files ) // Files name
 			->in( $this->dirs ); // In directories
+
+		$finder->depth( \count( $this->paths ) );
+		$finder->path( $this->paths );
 
 		if ( ! $finder->hasResults() ) {
 			return '';

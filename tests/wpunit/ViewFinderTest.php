@@ -14,9 +14,9 @@ class ViewFinderTest extends \Codeception\TestCase\WPTestCase
 		parent::setUp();
 
 		$this->paths = [
-			'childPath'		=> \codecept_data_dir( 'child' ),
-			'parentPath'	=> \codecept_data_dir( 'parent' ),
-			'pluginPath'	=> \codecept_data_dir( 'plugin' ),
+			'childPath'		=> \codecept_data_dir( 'fixtures/child' ),
+			'parentPath'	=> \codecept_data_dir( 'fixtures/parent' ),
+			'pluginPath'	=> \codecept_data_dir( 'fixtures/plugin' ),
 		];
 	}
 
@@ -92,37 +92,6 @@ class ViewFinderTest extends \Codeception\TestCase\WPTestCase
 		$this->assertStringContainsString( '_data\parent', $realPath );
 		$this->assertStringNotContainsString( '_data\plugin', $realPath );
 
-	}
-
-	private function getFinder() {
-		$finder = new \ItalyStrap\View\ViewFinder();
-		$this->assertInstanceOf( '\ItalyStrap\View\ViewFinderInterface', $finder );
-		$this->assertInstanceOf( '\ItalyStrap\View\ViewFinder', $finder );
-		return $finder;
-	}
-
-	/**
-	 * @test
-	 */
-	public function itShouldFinderFindFile() {
-		$finder = $this->getFinder();
-
-		// Search in single directory
-		$finder->in( $this->paths[ 'parentPath' ] );
-
-		$this->assertFileExists( $finder->find( ['content', 'none', 'test'] ) );
-		$this->assertFileIsReadable( $finder->find( ['content', 'none', 'test'] ) );
-		$expected = \str_replace( '/', '\\', $this->paths[ 'parentPath' ] . '\content-none.php'  );
-		$actual = \str_replace( '/', '\\', $finder->find( ['content', 'none', 'test'] )  );
-		$this->assertEquals( $expected, $actual );
-
-		// New search in another directory with the same $finder object
-		$finder->in( $this->paths[ 'pluginPath' ] );
-		$this->assertFileExists( $finder->find( ['test'] ) );
-		$this->assertFileIsReadable( $finder->find( ['test'] ) );
-		$expected = \str_replace( '/', '\\', $this->paths[ 'pluginPath' ] . '\test.php'  );
-		$actual = \str_replace( '/', '\\', $finder->find( ['test'] )  );
-		$this->assertEquals( $expected, $actual );
 	}
 
 	private function getCallbackFinder() {

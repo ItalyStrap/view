@@ -1,4 +1,6 @@
-<?php 
+<?php
+declare(strict_types=1);
+
 class FinderTest extends \Codeception\Test\Unit
 {
     /**
@@ -22,21 +24,28 @@ class FinderTest extends \Codeception\Test\Unit
     }
 
 	private function getInstance() {
-		$finder = new \ItalyStrap\Finder\ConfigFinder();
+		$finder = new class extends \ItalyStrap\Finder\AbstractFinder {
+
+			public function find( $slugs, $extension = 'php' ) {
+				// TODO: Implement find() method.
+			}
+			protected function filter( array $files ) {
+				// TODO: Implement filter() method.
+			}
+		};
 		$this->assertInstanceOf( ItalyStrap\Finder\FinderInterface::class, $finder );
 		$this->assertInstanceOf( ItalyStrap\Finder\AbstractFinder::class, $finder );
-		$this->assertInstanceOf( ItalyStrap\Finder\ConfigFinder::class, $finder );
+		$this->assertInstanceOf( \Countable::class, $finder );
+//		$this->
 		return $finder;
 	}
 
 	/**
 	 * @test
 	 */
-	public function it_should_thrown_exception()
+	public function it_should_be_instantiable()
 	{
 		$finder = $this->getInstance();
-		$this->expectException( LogicException::class );
-		$finder->find( 'file_name' );
 	}
 
 	/**

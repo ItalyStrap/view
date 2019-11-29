@@ -33,6 +33,11 @@
             "ItalyStrap\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "ItalyStrap\\Test\\" : "tests/"
+        }
+    },
     "scripts": {
         "check": [
             ".\\vendor\\bin\\phpcs -p --standard=PHPCompatibility src",
