@@ -47,15 +47,54 @@ $view->render( ['slug', 'name', 'subName'], $data );
 ```
 
 ### For WordPress User
+
+By default it will search in child -> parent -> theme-compat directories like the original `\get_template_part()` does
+
 ```php
+// It will search in the root of your theme slug-name.php -> slug.php
 \ItalyStrap\View\get_template_part( 'slug', 'name', $data );
 
 // Or
 
 use ItalyStrap\View;
 
+// theme_path/slug-name.php
+// theme_path/slug.php
 get_template_part( 'slug', 'name', $data );
+
+// theme_path/slug-slug1-name.php
+// theme_path/slug-name.php
+// theme_path/slug.php
+get_template_part( ['slug', 'slug1'], 'name', $data );
 ```
+
+If you need to add more or different direcories for searchinf files you can filter theme with the `'italystrap_view_get_template_part_directories'` hook. 
+
+```php
+
+\add_filter( 'italystrap_view_get_template_part_directories', function( array $dirs ) {
+    // Add here your logic for dirs
+    // For example you can add subdirs or remove dirs
+    // You can add directories for languages
+    // You can add directories from plugins and so on.
+    // The sky is the limit.
+
+    return $dirs;
+});
+```
+
+Some example of results:
+
+plugin_path/some_dir_path/slug-name.php
+plugin_path/some_dir_path/slug.php
+theme_path/other_dir_path/slug-slug-name.php
+theme_path/other_dir_path/slug-name.php
+theme_path/other_dir_path/slug.php
+
+theme_with_locale_path/locale/slug-name.php
+
+And so on.
+
 
 ## Advanced Usage
 

@@ -18,20 +18,14 @@ abstract class AbstractViewFinder extends AbstractFinder implements ViewFinderIn
 	 */
 	public function find( $slugs, $extension = 'php' ): string {
 
-		if ( 0 === \count( $this->dirs ) ) {
-			throw new \LogicException('You must call ::in() method before calling ::find() method.');
-		}
+		$this->assertDirsIsNotEmpty();
 
 		$slugs = (array) $slugs;
 
 		$files = [];
 		$this->generateSlugs( $slugs, $files, $extension );
 
-		if ( ! $this->has( $files ) ) {
-			throw new ViewNotFoundException(
-				\sprintf( 'The file %s does not exists', $files[0] )
-			);
-		}
+		$this->assertHasFile( $files );
 
 		return $this->files[ $this->generateKey( $files[0] ) ];
 	}
@@ -84,6 +78,26 @@ abstract class AbstractViewFinder extends AbstractFinder implements ViewFinderIn
 		if ( \count( $slugs ) > 1 ) {
 			\array_pop( $slugs );
 			$this->generateSlugs( $slugs, $files, $extensions );
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected function assertDirsIsNotEmpty(): void {
+		if ( 0 === \count( $this->dirs ) ) {
+			throw new \LogicException( 'You must call ::in() method before calling ::find() method.' );
+		}
+	}
+
+	/**
+	 * @param array $files
+	 */
+	protected function assertHasFile( array $files ): void {
+		if ( !$this->has( $files ) ) {
+			throw new ViewNotFoundException(
+				\sprintf( 'The file %s does not exists', $files[ 0 ] )
+			);
 		}
 	}
 }

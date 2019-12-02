@@ -16,7 +16,6 @@ abstract class BaseViewFinderTestUnit extends \Codeception\Test\Unit
 
 	protected function _before()
 	{
-
 		$this->paths = [
 			'childPath'		=> \codecept_data_dir( 'fixtures/child' ),
 			'parentPath'	=> \codecept_data_dir( 'fixtures/parent' ),
