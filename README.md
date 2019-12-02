@@ -95,6 +95,31 @@ theme_with_locale_path/locale/slug-name.php
 
 And so on.
 
+### Inside the file template
+
+Inside the file or template part you require if you added some $data value you can use it like so:
+
+```php
+$data = [
+    'title' => 'Ciao Mondo',
+];
+
+// some-template-part.php
+use ItalyStrap\View;
+get_template_part( ['some','template'], 'part', $data );
+//or
+//...
+//$view->render( ['some','template','part'], $data );
+
+
+// inside some-template-part.php
+echo $this->title;
+
+//or
+
+echo $this->get( 'title', 'Some default title' );
+```
+
 
 ## Advanced Usage
 
