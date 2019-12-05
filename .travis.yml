@@ -1,5 +1,4 @@
 # https://www.theaveragedev.com/installing-and-setting-up-wordpress-and-nginx-for-travis-ci-tests/
-sudo: required
 
 language: php
 
@@ -8,8 +7,6 @@ notifications:
 
 php:
   - '7.2'
-  - '7.3'
-  - nightly
 
 matrix:
   fast_finish: true
