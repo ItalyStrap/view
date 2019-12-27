@@ -1,7 +1,7 @@
 {
     "name": "italystrap/view",
     "description": "View API for loading template parts and views the OOP way",
-    "type": "wordpress-plugin",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -20,10 +20,12 @@
         "lucatume/wp-browser": "~2.2",
         "lucatume/function-mocker-le": "^1.0",
         "italystrap/debug": "*",
+        "brain/hierarchy": "^2.4",
         "wp-coding-standards/wpcs": "^2.1",
         "phpcompatibility/php-compatibility": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
-        "brain/hierarchy": "^2.4"
+        "phpstan/phpstan": "^0.11.16",
+        "szepeviktor/phpstan-wordpress": "^0.3.0"
     },
     "autoload": {
         "files": [

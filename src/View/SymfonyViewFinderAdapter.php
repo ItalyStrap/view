@@ -8,6 +8,11 @@ use Symfony\Component\Finder\Finder;
 class SymfonyViewFinderAdapter extends AbstractViewFinder
 {
 	/**
+	 * @var array
+	 */
+	private $paths = [];
+
+	/**
 	 * @var ViewFinder
 	 */
 	private $finder;
