@@ -3,7 +3,13 @@ declare(strict_types=1);
 
 namespace ItalyStrap\View;
 
-use ItalyStrap\View\Exceptions\ViewNotFoundException;
+use Exception;
+use ItalyStrap\Finder\Exceptions\FileNotFoundException;
+use ItalyStrap\Finder\FileInfoFactory;
+use ItalyStrap\Finder\FilesHierarchyIterator;
+use ItalyStrap\Finder\Finder;
+use function apply_filters;
+use function strval;
 
 /**
  * @see get_template_part()
@@ -14,15 +20,16 @@ use ItalyStrap\View\Exceptions\ViewNotFoundException;
  */
 function get_template_part( $slug, $name = '', $data = [] ) {
 
-	$type = \apply_filters( 'italystrap_view_get_template_part_finder_type_name', ViewFinder::class );
+//	$type = apply_filters( 'italystrap_view_get_template_part_finder_type_name', Finder::class );
+	$type = Finder::class;
 
-	$dirs = \apply_filters( 'italystrap_view_get_template_part_directories',  [
+	$dirs = apply_filters( 'italystrap_view_get_template_part_directories',  [
 		STYLESHEETPATH,
 		TEMPLATEPATH,
 		ABSPATH . WPINC . '/theme-compat/',
 	] );
 
-	$finder = new $type;
+	$finder = new $type( new FilesHierarchyIterator( new FileInfoFactory() )  );
 	$finder->in( $dirs );
 
 	$view = new View( $finder );
@@ -39,13 +46,13 @@ function get_template_part( $slug, $name = '', $data = [] ) {
 		do_action( 'get_template_part', $slug, $name, [] );
 
 		$slug = (array) $slug;
-		$slug[] = \strval( $name );
+		$slug[] = strval( $name );
 
 		echo $view->render( $slug, $data );
 
-	} catch ( ViewNotFoundException $e ) {
+	} catch ( FileNotFoundException $e ) {
 		echo $e->getMessage();
-	} catch ( \Exception $e ) {
+	} catch ( Exception $e ) {
 		/**
 		 * @todo Add some sort of debugging
 		 */

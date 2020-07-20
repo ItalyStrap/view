@@ -1,31 +1,88 @@
 <?php
+/**
+ * View API: View Class
+ *
+ * @package ItalyStrap\View
+ *
+ * @since 4.0.0
+ */
+declare(strict_types=1);
 
+namespace ItalyStrap\View;
 
-namespace ItalyStrap;
+use \ItalyStrap\Config\ConfigFactory as Config;
+use ItalyStrap\Config\ConfigInterface;
+use ItalyStrap\Finder\FinderInterface;
 
-
-class View
-{
+/**
+ * Template Class
+ */
+class View implements ViewInterface {
 
 	/**
-	 * Handle dynamic, static calls to the object.
-	 *
-	 * @param  string  $method
-	 * @param  array   $args
-	 * @return mixed
-	 *
-	 * @throws \RuntimeException
+	 * @var FinderInterface
 	 */
-//	public static function __callStatic($method, $args)
-//	{
-//		$finder = new View\ViewFinder();
-//		$finder->in( \codecept_data_dir( 'parent' ) );
-//		$instance = new View\View( $finder );
-//
-//		if (! $instance) {
-//			throw new \RuntimeException('A facade root has not been set.');
-//		}
-//
-//		return $instance->$method(...$args);
-//	}
+	private $finder;
+
+	public function __construct( FinderInterface $finder ) {
+		$this->finder = $finder;
+	}
+
+	/**
+	 * Render a template part into a template
+	 *
+	 * @param  string|array $slugs The slug name for the generic template.
+	 * @param  array|ConfigInterface $data
+	 *
+	 * @return string              Return the file part rendered
+	 * @throws \Exception
+	 */
+	public function render( $slugs, $data = [] ) : string {
+		return $this->renderFile( $this->finder->firstFile( (array) $slugs, 'php' ), $data );
+	}
+
+	/**
+	 * Print the redered template.
+	 *
+	 * @param $slugs
+	 * @param array|ConfigInterface $data
+	 * @throws \Exception
+	 */
+	public function output( $slugs, $data = [] ) {
+		echo $this->render( $slugs, $data );
+	}
+
+	/**
+	 * Take a template file, bind the data provided and return the string rendered.
+	 *
+	 * @param \SplFileInfo $readableFile Full path for this template file.
+	 * @param mixed|array|ConfigInterface $data
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	private function renderFile( \SplFileInfo $readableFile, $data = [] ) : string {
+
+		$storage = null;
+
+		if ( $data instanceof ConfigInterface ) {
+			$storage = $data;
+		} else {
+			$storage = Config::make( $data );
+		}
+
+		/**
+		 * Thanks to Giuseppe Mazzapica https://github.com/gmazzap
+		 */
+		$renderer = \Closure::bind(
+			function ( $readableFile ) {
+				\ob_start();
+				include $readableFile;
+				return \ob_get_clean();
+			},
+			$storage
+		);
+
+		return $renderer( $readableFile );
+	}
 }

@@ -1,42 +1,61 @@
 <?php
 declare(strict_types=1);
 
-class ViewTest extends \Codeception\Test\Unit
+use Codeception\Test\Unit;
+use ItalyStrap\Finder\FinderInterface;
+use ItalyStrap\View\View;
+use Prophecy\Prophecy\ObjectProphecy;
+use Symfony\Component\Finder\Finder;
+
+class ViewTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
     protected $tester;
 
 	protected $paths = [];
-    
-    protected function _before()
+
+	/**
+	 * @var ObjectProphecy
+	 */
+	private $finder;
+
+	/**
+	 * @return FinderInterface
+	 *
+	 */
+	public function getFinder(): FinderInterface
+	{
+		return $this->finder->reveal();
+	}
+
+	protected function _before()
     {
 		$this->paths = [
-			'childPath'		=> \codecept_data_dir( 'fixtures/child' ),
-			'parentPath'	=> \codecept_data_dir( 'fixtures/parent' ),
-			'pluginPath'	=> \codecept_data_dir( 'fixtures/plugin' ),
+			'childPath'		=> codecept_data_dir( 'fixtures/child' ),
+			'parentPath'	=> codecept_data_dir( 'fixtures/parent' ),
+			'pluginPath'	=> codecept_data_dir( 'fixtures/plugin' ),
 		];
+
+		$this->finder = $this->prophesize( FinderInterface::class );
     }
 
     protected function _after()
     {
     }
 
-	private function getInstance(): \ItalyStrap\View\View {
-		$finder = new \ItalyStrap\View\ViewFinder();
-
-		$view = new ItalyStrap\View\View( $finder->in( $this->paths ) );
-		$this->assertInstanceOf( ItalyStrap\View\ViewInterface::class, $view );
-		$this->assertInstanceOf( ItalyStrap\View\View::class, $view );
-
-		return $view;
+	private function getInstance(): View {
+		$sut = new ItalyStrap\View\View( $this->getFinder() );
+		$this->assertInstanceOf( ItalyStrap\View\ViewInterface::class, $sut );
+		$this->assertInstanceOf( ItalyStrap\View\View::class, $sut );
+		return $sut;
 	}
 
 	/**
 	 * @test
 	 */
-	public function it_should_be_Instantiable()
+	public function instanceOk()
 	{
 		$view = $this->getInstance();
 	}
@@ -47,10 +66,13 @@ class ViewTest extends \Codeception\Test\Unit
 	 */
 	public function itShouldHaveDafaultTitle()
 	{
+		$this->finder->firstFile( ['content'], 'php' )->willReturn(
+			new SplFileInfo( codecept_data_dir( 'fixtures/child' ) . '/content.php' )
+		);
 
-		$viewObj = $this->getInstance();
+		$sut = $this->getInstance();
 		// Get the content.php from child
-		$view = $viewObj->render( 'content' );
+		$view = $sut->render( 'content' );
 		$this->assertStringContainsString( 'Default title', $view );
 
 	}
@@ -61,13 +83,36 @@ class ViewTest extends \Codeception\Test\Unit
 	 */
 	public function itShouldHaveProvidedTitle()
 	{
+
+		$this->finder->firstFile( ['content'], 'php' )->willReturn(
+			new SplFileInfo( codecept_data_dir( 'fixtures/child' ) . '/content.php' )
+		);
+
 		$data = [ 'title' => 'Title of the content' ];
 
 		$viewObj = $this->getInstance();
 		// Get the content.php from child
 		$view = $viewObj->render( 'content', $data );
 		$this->assertStringContainsString( $data['title'], $view );
+	}
 
+	/**
+	 * @test
+	 * @throws Exception
+	 */
+	public function itShouldHaveProvidedTitleFromConfigFactory()
+	{
+
+		$this->finder->firstFile( ['content'], 'php' )->willReturn(
+			new SplFileInfo( codecept_data_dir( 'fixtures/child' ) . '/content.php' )
+		);
+
+		$data = \ItalyStrap\Config\ConfigFactory::make([ 'title' => 'Title of the content' ]);
+
+		$viewObj = $this->getInstance();
+		// Get the content.php from child
+		$view = $viewObj->render( 'content', $data );
+		$this->assertStringContainsString( $data['title'], $view );
 	}
 
 	/**
@@ -76,13 +121,17 @@ class ViewTest extends \Codeception\Test\Unit
 	 */
 	public function itShouldHaveProvidedTitle2()
 	{
+
+		$this->finder->firstFile( ['without-default'], 'php' )->willReturn(
+			new SplFileInfo( codecept_data_dir( 'fixtures/child' ) . '/without-default.php' )
+		);
+
 		$data = [ 'title' => 'Title of the content' ];
 
-		$viewObj = $this->getInstance();
+		$sut = $this->getInstance();
 		// Get the content.php from child
-		$view = $viewObj->render( 'without-default', $data );
+		$view = $sut->render( 'without-default', $data );
 		$this->assertStringContainsString( $data['title'], $view );
-
 	}
 
 	/**
@@ -91,6 +140,10 @@ class ViewTest extends \Codeception\Test\Unit
 	 */
 	public function itShouldParseEveryDataTypeProvided()
 	{
+		$this->finder->firstFile( ['content'], 'php' )->willReturn(
+			new SplFileInfo( codecept_data_dir( 'fixtures/child' ) . '/content.php' )
+		);
+
 		$data = [ 'title' => 'Title of the content' ];
 
 		$viewObj = $this->getInstance();
@@ -101,12 +154,12 @@ class ViewTest extends \Codeception\Test\Unit
 		$view = $viewObj->render( 'content', '' );
 		$this->assertIsString( $view );
 
-		$data = new \stdClass();
+		$data = new stdClass();
 		$data->title = 'Title from stdClass';
 		$view = $viewObj->render( 'content', $data );
 		$this->assertStringContainsString( $data->title, $view );
 
-		$data = $this->make( \Symfony\Component\Finder\Finder::class );
+		$data = $this->make( Finder::class );
 		$data->in( $this->paths );
 		$view = $viewObj->render( 'content', $data );
 		$this->assertIsString( $view );

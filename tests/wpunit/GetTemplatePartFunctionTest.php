@@ -1,8 +1,17 @@
-<?php 
-class GetTemplatePartFunctionTest extends \Codeception\TestCase\WPTestCase
+<?php
+declare(strict_types=1);
+
+namespace ItalyStrap\Tests;
+
+use Codeception\TestCase\WPTestCase;
+use WpunitTester;
+use function ob_get_clean;
+use function ob_start;
+
+class GetTemplatePartFunctionTest extends WPTestCase
 {
 	/**
-	 * @var \WpunitTester
+	 * @var WpunitTester
 	 */
 	protected $tester;
 
@@ -28,9 +37,9 @@ class GetTemplatePartFunctionTest extends \Codeception\TestCase\WPTestCase
 		global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
     	$slug = 'index';
 
-    	\ob_start();
+    	ob_start();
 		\ItalyStrap\View\get_template_part( $slug, '', $posts );
-		$content = \ob_get_clean();
+		$content = ob_get_clean();
 
 		$this->assertIsString( $content );
     }
