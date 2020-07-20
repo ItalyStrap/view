@@ -19,5 +19,5 @@ modules:
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "View"
             theme: [ "twentynineteen", "child"]
-            plugins: ['']
-            activatePlugins: ['']
+            plugins: ['view/index.php']
+            activatePlugins: ['view/index.php']

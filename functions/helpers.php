@@ -6,6 +6,8 @@ namespace ItalyStrap\View;
 use ItalyStrap\View\Exceptions\ViewNotFoundException;
 
 /**
+ * @see get_template_part()
+ *
  * @param $slug
  * @param $name
  * @param $data
