@@ -83,6 +83,6 @@ class View implements ViewInterface {
 			$storage
 		);
 
-		return $renderer( $readableFile );
+		return (string) $renderer( $readableFile );
 	}
 }
