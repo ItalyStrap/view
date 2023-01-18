@@ -84,5 +84,13 @@
     "support"    : {
         "issues": "https://github.com/ItalyStrap/view/issues",
         "source": "https://github.com/ItalyStrap/view"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true,
+            "cweagans/composer-patches": true,
+            "codeception/c3": true
+        }
     }
 }
