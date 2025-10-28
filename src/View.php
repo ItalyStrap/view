@@ -68,7 +68,7 @@ class View implements ViewInterface {
 		if ( $data instanceof ConfigInterface ) {
 			$storage = $data;
 		} else {
-			$storage = Config::make( $data );
+			$storage = (new Config)->make( $data );
 		}
 
 		/**
